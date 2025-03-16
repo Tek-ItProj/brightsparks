@@ -8,7 +8,7 @@ public class LoginService {
 
     // make registration generate hash
     public boolean validateUser(String name, String password) {
-        return name.equalsIgnoreCase("admin@test.com")
+        return name.equalsIgnoreCase("student@school.com")
                 && password.equalsIgnoreCase("password");
     }
 
