@@ -8,6 +8,7 @@ WORKDIR /app
 COPY gradlew settings.gradle build.gradle ./
 COPY gradle ./gradle
 
+RUN chmod +x ./gradlew
 # Download dependencies
 RUN ./gradlew dependencies --write-locks
 
