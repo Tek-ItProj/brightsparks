@@ -38,8 +38,7 @@ jobs:
         with:
           context: "{{defaultContext}}:/backend/backend"
           push: true
-          tags: registry.digitalocean.com/${{ secrets.DOCKER_REGISTRY }}/${{ github.event.repository.name }}:${{ github.sha }}
-
+          tags: registry.digitalocean.com/${{ secrets.DOCKER_REGISTRY }}/${{ github.event.repository.name }}:latest
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
