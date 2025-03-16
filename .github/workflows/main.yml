@@ -30,7 +30,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v3
         with:
-          context: ./backend/backend
+          context: ./backend/backend/
           file: ./Dockerfile # Explicitly specify the Dockerfile
           push: true
           tags: registry.digitalocean.com/${{ secrets.DOCKER_REGISTRY }}/${{ github.event.repository.name }}:${{ github.sha }}
