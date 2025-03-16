@@ -47,7 +47,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v6
         with:
-          context: "{{defaultContext}}:backend/backend"
+          context: "{{defaultContext}}:/backend/backend"
           push: true
           tags: registry.digitalocean.com/${{ secrets.DOCKER_REGISTRY }}/${{ github.event.repository.name }}:${{ github.sha }}
 
