@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /app
 
 # Copy the entire build folder from the local machine
-COPY build ./build
+COPY ./build ./build
 
 # Expose the application port
 EXPOSE 8080
