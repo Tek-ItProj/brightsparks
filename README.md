@@ -1,5 +1,5 @@
 # brightsparks
-monorepo for bright sparks
+
 ## Inspiration
 Bright Sparks – Elevator Pitch
 
@@ -46,7 +46,7 @@ A real-time, cloud-based education hub where students, teachers, and institution
 
 ## How we built it
 
-🔹 Tech Stack Implementation
+🔹 Projected Tech Stack Implementation
 
 💻 Frontend (React + TypeScript)
 
@@ -73,12 +73,50 @@ EKS (Kubernetes) for containerized backend.
 
 🔄 CI/CD & Deployment
 
-GitHub Actions + AWS CodePipeline for automated rollouts.
+We projected to use GitHub Actions + AWS CodePipeline for automated rollouts, but we ended up using Github Actions with Digital Ocean, Kubernetes, and Docker.
 
 ## Challenges we ran into
+Resource Issues and Hanging Processes
+
+System resources were frequently strained, leading to slow performance and unresponsive applications.
+Some processes would hang unexpectedly, requiring manual intervention or restarts, which disrupted workflows.
+Limited availability of processing power and memory created bottlenecks, especially when running resource-intensive tasks.
+Connectivity Issues Delaying Productivity
+
+Frequent interruptions required multiple package reinstalls due to prior failures, consuming valuable time.
+Dependencies failed to resolve correctly, forcing repeated troubleshooting efforts.
+Some team members experienced difficulty accessing essential services, further delaying progress.
+Network Instabilities Lowering Productivity
+
+Unreliable network conditions resulted in slow downloads and frequent disconnections.
+Real-time collaboration was impacted, causing delays in team communication and task completion.
+Debugging and testing that relied on stable connections became inefficient, adding unnecessary roadblocks to development.
 
 ## Accomplishments that we're proud of
+The backend efficiently handled limited data processing, authentication, and core functionalities through bottlenecks.
+The frontend provided a smooth and user-friendly experience, ensuring usability and responsiveness.
 
 ## What we learned
+Deeper Understanding of Required Technologies
+
+We gained insights into the technologies essential for meeting the application’s requirements, both within and beyond the MVP scope.
+This included understanding trade-offs between different solutions and their long-term impact on scalability and maintainability.
+Balancing Complexity and Efficiency
+
+We recognized the importance of leveraging existing services to streamline development and reduce unnecessary complexity.
+For instance, using UploadThing for file uploads provided a quick, out-of-the-box solution, saving time and effort.
+In contrast, setting up Amazon S3 buckets would have added unnecessary overhead for the MVP, highlighting the need for pragmatic decision-making based on project scope and timeline.
 
 ## What's next for Bright Sparks
+Solidifying Value Proposition
+
+Refining and clearly defining the core value that Bright Sparks offers to users and businesses.
+Ensuring that our product addresses real pain points and delivers tangible benefits.
+Enhancing Real-World Applicability
+
+Gathering feedback from early users to improve functionality and user experience.
+Identifying key industries and use cases where Bright Sparks can provide the most impact.
+Scaling and Business Viability
+
+Exploring monetization strategies to ensure long-term sustainability.
+Building partnerships and collaborations to expand our reach and adoption.
