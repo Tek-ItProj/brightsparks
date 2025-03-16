@@ -1,4 +1,4 @@
-package com.brightsparks.backend.service;
+package com.brightsparks.backend.repository;
 
 import com.brightsparks.backend.model.Document;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,14 +2,11 @@ package com.brightsparks.backend.service;
 
 
 import com.brightsparks.backend.model.Document;
-import com.brightsparks.backend.model.PeerReview;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.brightsparks.backend.repository.DocumentRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
