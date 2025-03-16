@@ -48,16 +48,9 @@ jobs:
 
       - name: Get DigitalOcean Kubernetes credentials
         run: doctl kubernetes cluster kubeconfig save ${{ secrets.KUBERNETES_CLUSTER_NAME }} > kubeconfig.yaml
-
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'v1.28.0' # Adjust based on your cluster's version
-
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl --kubeconfig kubeconfig.yaml set image deployment/${{ secrets.KUBERNETES_DEPLOYMENT_NAME }} ${{ vars.KUBERNETES_CONTAINER_NAME }}=registry.digitalocean.com/${{ secrets.DOCKER_REGISTRY }}/${{ github.event.repository.name }}:${{ github.sha }}
-          kubectl --kubeconfig kubeconfig.yaml rollout restart deployment/${{ secrets.KUBERNETES_DEPLOYMENT_NAME }}
-
-        env:
-          KUBECONFIG: kubeconfig.yaml
+        
+      - name: Deploy to DigitalOcean Kubernetes
+        run: kubectl apply -f ./config/deployment.yml
+        
+      - name: Verify deployment
+        run: kubectl rollout status deployment/python-example
