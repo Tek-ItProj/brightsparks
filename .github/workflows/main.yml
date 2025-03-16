@@ -50,7 +50,7 @@ jobs:
         run: doctl kubernetes cluster kubeconfig save ${{ secrets.KUBERNETES_CLUSTER_NAME }} > kubeconfig.yaml
         
       - name: Deploy to DigitalOcean Kubernetes
-        run: kubectl apply -f ./kube/deploy.yml
+        run: kubectl apply -f ./kube/deploy.yaml
         
       - name: Verify deployment
         run: kubectl rollout status deployment/python-example
