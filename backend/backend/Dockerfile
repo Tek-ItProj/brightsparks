@@ -1,14 +1,30 @@
-# Use a multi-stage build to optimize image size
-FROM openjdk:17-jdk-alpine
+# Use a multi-stage build to reduce the final image size
+FROM gradle:7.6.1-jdk17-alpine AS builder
 
 # Set the working directory
 WORKDIR /app
 
-# Copy the entire build folder from the local machine
-COPY ./build ./build
+# Copy only the necessary files for dependency resolution
+COPY gradlew settings.gradle build.gradle ./
+COPY gradle ./gradle
 
-# Expose the application port
+# Download dependencies
+RUN ./gradlew dependencies --write-locks
+
+# Copy the source code
+COPY src ./src
+
+# Build the application
+RUN ./gradlew bootJar
+
+# Create the final image
+FROM openjdk:17-jdk-alpine
+
+# Copy the built JAR file from the builder stage
+COPY --from=builder /app/build/libs/*.jar /app/app.jar
+
+# Expose the port your Spring Boot application runs on (usually 8080)
 EXPOSE 8080
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "./build/libs/backend-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
