@@ -16,6 +16,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
+      - name: Install doctl
+        run: |
+          curl -sSL https://github.com/digitalocean/doctl/releases/latest/download/doctl-linux-amd64.tar.gz | sudo tar -xzv -C /usr/local/bin
+          sudo chmod +x /usr/local/bin/doctl
+          doctl --version # Verify installation
+
       - name: Login to DigitalOcean Container Registry
         run: doctl registry login
         env:
