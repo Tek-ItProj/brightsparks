@@ -1,0 +1,53 @@
+name: Build and Deploy to DigitalOcean Kubernetes
+
+on:
+  push:
+    branches:
+      - main # Or your desired branch
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DigitalOcean Container Registry
+        run: doctl registry login
+        env:
+          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Build and push Docker image
+        id: docker_build
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile # Explicitly specify the Dockerfile
+          push: true
+          tags: registry.digitalocean.com/${{ secrets.DOCKER_REGISTRY }}/${{ github.event.repository.name }}:${{ github.sha }}
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          version: latest
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Get DigitalOcean Kubernetes credentials
+        run: doctl kubernetes cluster kubeconfig save ${{ secrets.KUBERNETES_CLUSTER_NAME }} > kubeconfig.yaml
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.28.0' # Adjust based on your cluster's version
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl --kubeconfig kubeconfig.yaml set image deployment/${{ secrets.KUBERNETES_DEPLOYMENT_NAME }} ${{ secrets.KUBERNETES_CONTAINER_NAME }}=registry.digitalocean.com/${{ secrets.DOCKER_REGISTRY }}/${{ github.event.repository.name }}:${{ github.sha }}
+          kubectl --kubeconfig kubeconfig.yaml rollout restart deployment/${{ secrets.KUBERNETES_DEPLOYMENT_NAME }}
+
+        env:
+          KUBECONFIG: kubeconfig.yaml
