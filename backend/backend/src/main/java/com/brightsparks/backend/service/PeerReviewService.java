@@ -1,16 +1,12 @@
 package com.brightsparks.backend.service;
 
 import com.brightsparks.backend.model.PeerReview;
-import jakarta.persistence.Access;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.brightsparks.backend.repository.PeerReviewRepository;
 
-import javax.print.Doc;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PeerReviewService {
