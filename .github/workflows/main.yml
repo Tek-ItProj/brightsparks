@@ -1,0 +1,55 @@
+name: Build and Deploy to DigitalOcean Kubernetes
+
+on:
+  push:
+    branches:
+      - main # Or your desired branch
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend/backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          
+      - name: Login to DigitalOcean Container Registry
+        run: doctl registry login
+        env:
+          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          
+      - name: Folder
+        run: ls
+        
+      - name: Build and push Docker image
+        id: docker_build
+        uses: docker/build-push-action@v6
+        with:
+          context: "{{defaultContext}}:/backend/backend"
+          push: true
+          tags: registry.digitalocean.com/${{ secrets.DOCKER_REGISTRY }}/${{ github.event.repository.name }}:latest
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          version: latest
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Get DigitalOcean Kubernetes credentials
+        run: doctl kubernetes cluster kubeconfig save ${{ secrets.KUBERNETES_CLUSTER_NAME }} > kubeconfig.yaml
+        
+      - name: Deploy to DigitalOcean Kubernetes
+        run: kubectl apply -f ./kube/deploy.yaml
+        
+      - name: Verify deployment
+        run: kubectl rollout status deployment/python-example
